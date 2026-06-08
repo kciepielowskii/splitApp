@@ -29,6 +29,7 @@ public class User implements UserDetails {
     private String displayName;
 
     @Column(nullable = false, updatable = false)
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToMany(mappedBy = "members")
