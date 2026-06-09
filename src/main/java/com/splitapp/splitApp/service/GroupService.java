@@ -5,6 +5,7 @@ import com.splitapp.splitApp.dto.request.CreateGroupRequest;
 import com.splitapp.splitApp.dto.response.DebtResponse;
 import com.splitapp.splitApp.dto.response.ExpenseResponse;
 import com.splitapp.splitApp.dto.response.GroupResponse;
+import com.splitapp.splitApp.exception.ResourceNotFoundException;
 import com.splitapp.splitApp.model.Expense;
 import com.splitapp.splitApp.model.ExpenseSplit;
 import com.splitapp.splitApp.model.Group;
@@ -57,7 +58,7 @@ public class GroupService {
 
     public ExpenseResponse addExpense(CreateExpenseRequest request, User payer) {
         Group group = groupRepository.findById(request.getGroupId())
-                .orElseThrow(() -> new RuntimeException("Group not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Group not found"));
 
         Expense expense = Expense.builder()
                 .group(group)
@@ -92,7 +93,7 @@ public class GroupService {
 
     public List<DebtResponse> getGroupBalances(Long groupId) {
         Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new RuntimeException("Group not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Group not found"));
         List<Expense> expenses = expenseRepository.findByGroupId(groupId);
         return debtCalculatorService.calculate(expenses);
     }
