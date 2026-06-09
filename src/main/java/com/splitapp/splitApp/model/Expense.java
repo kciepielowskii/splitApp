@@ -30,6 +30,7 @@ public class Expense {
     private String description;
 
     @Column(nullable = false, updatable = false)
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL)

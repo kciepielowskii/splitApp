@@ -35,5 +35,6 @@ public class Group {
     private List<Expense> expenses = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 }

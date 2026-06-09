@@ -30,5 +30,6 @@ public class Payment {
     private BigDecimal amount;
 
     @Column(nullable = false, updatable = false)
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 }
