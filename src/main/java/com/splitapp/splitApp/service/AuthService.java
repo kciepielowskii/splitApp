@@ -3,6 +3,7 @@ package com.splitapp.splitApp.service;
 import com.splitapp.splitApp.dto.request.LoginRequest;
 import com.splitapp.splitApp.dto.request.RegisterRequest;
 import com.splitapp.splitApp.dto.response.AuthResponse;
+import com.splitapp.splitApp.exception.ResourceNotFoundException;
 import com.splitapp.splitApp.model.User;
 import com.splitapp.splitApp.repository.UserRepository;
 import com.splitapp.splitApp.security.JwtUtil;
@@ -23,7 +24,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already in use");
+            throw new ResourceNotFoundException("Email already in use");
         }
 
         User user = User.builder()
@@ -44,7 +45,7 @@ public class AuthService {
         );
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         String token = jwtUtil.generateToken(user.getEmail());
         return new AuthResponse(token, user.getEmail(), user.getDisplayName());
